@@ -1,20 +1,30 @@
 package org.example;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.*;
 
 public class AppState {
-    // הכנס כאן את הטוקנים שלך!
-    public static final String TELEGRAM_BOT_TOKEN = "8727080601:AAH3L2L0k0EeT9BmTbVyRu6E94R_Hebl3TI";
-    public static final String TELEGRAM_BOT_USERNAME = "MosheZinoBot";
-    public static final String CHATGPT_API_KEY = "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";
+    public static String TELEGRAM_BOT_TOKEN;
+    public static String TELEGRAM_BOT_USERNAME;
+    public static String SHAI_API_TOKEN;
 
-    // רשימת הקהילה הגלובלית
+    // טעינת ההגדרות מקובץ config.properties
+    static {
+        Properties properties = new Properties();
+        try (FileInputStream input = new FileInputStream("config.properties")) {
+            properties.load(input);
+            TELEGRAM_BOT_TOKEN = properties.getProperty("TELEGRAM_BOT_TOKEN");
+            TELEGRAM_BOT_USERNAME = properties.getProperty("TELEGRAM_BOT_USERNAME");
+            SHAI_API_TOKEN = properties.getProperty("SHAI_API_TOKEN");
+        } catch (IOException e) {
+            System.err.println("Error loading config.properties: " + e.getMessage());
+        }
+    }
+
     public static List<CommunityUser> community = new ArrayList<>();
-
-    // הסקר הפעיל כרגע (אם יש)
     public static ActiveSurvey currentSurvey = null;
 
-    // מודלים של נתונים (Classes)
     public static class CommunityUser {
         public long chatId;
         public String firstName;
@@ -42,7 +52,7 @@ public class AppState {
         public List<Question> questions = new ArrayList<>();
         public List<CommunityUser> participants = new ArrayList<>();
         public Map<Long, Integer> userProgress = new HashMap<>();
-        public Map<Long, Integer> userMessageIds = new HashMap<>(); // לשמירת מזהה ההודעה של כל משתמש
+        public Map<Long, Integer> userMessageIds = new HashMap<>();
         public List<Map<String, Integer>> results = new ArrayList<>();
         public boolean isPending = true;
         public boolean isFinished = false;

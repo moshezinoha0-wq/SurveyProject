@@ -18,7 +18,7 @@ import java.util.Map;
 
 public class MainApp extends JFrame {
 
-    private static final int MIN_COMMUNITY_MEMBERS = 1;
+    private static final int MIN_COMMUNITY_MEMBERS = 3;
 
     private DefaultTableModel communityModel;
     private DefaultTableModel surveyModel;
